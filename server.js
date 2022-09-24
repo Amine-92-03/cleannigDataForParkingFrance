@@ -1,7 +1,7 @@
-import http from 'http'
-import app from './app.js'
-// require('./utils/dbConnexion')
-const server = http.createServer(app)
+// import http from 'http'
+// import app from './app.js'
+// // require('./utils/dbConnexion')
+// const server = http.createServer(app)
 
 
 // app.set('port', process.env.PORT || 4001)
