@@ -3,15 +3,15 @@ import bodyParser from "body-parser"
 import fetch from 'node-fetch'
 import dbConfig from './utils/dbConn.js'
 import sql from 'mssql'
-import {sqlInsert, sqlDelete} from './models/Tsql.js'
+import {sqlInsert, sqlDelete, sqlCount} from './models/Tsql.js'
 const app = express()
 var pool = await sql.connect(dbConfig)
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('./FrontEnd/'));
+
 getParkingListData()
-.finally(process.exit(1))
 
 async function getParkingListData(){
     console.log('');
@@ -41,6 +41,7 @@ async function getParkingListData(){
         console.log('nombre de lignes initiales : ', count);
         console.log('');
         console.log('________________Fin intégration____________________\n');
+        checkIntegration(count)
         return 1
     }else{
         console.log('No data found in open data');
@@ -53,9 +54,21 @@ async function getParkingListData(){
 async function DataQueryToDB(T_sql){
     try{
         let res = await pool.request().query(T_sql)
+        return res
     }catch(err){
         console.log('error app.js => intergrateDataToDB() !');
     }
+}
+
+async function checkIntegration(nbreDataInt){
+    let res = await DataQueryToDB(sqlCount())
+    console.log();
+    if(res.recordset[0].nbreRecords === nbreDataInt ){
+        console.log('Données intégrées avec succès');
+        process.exit(1)
+    }
+    console.log('Perte de données');
+    process.exit(0)
 }
 
 function enleveAppost(mot){

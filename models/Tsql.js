@@ -1,3 +1,9 @@
+let sqlCount = ()=> {
+    return `
+    SELECT COUNT(*) nbreRecords FROM bnlsData
+    `
+}
+
 let sqlDelete = ()=> {
     return `
     TRUNCATE TABLE [dbo].[bnlsData]
@@ -74,6 +80,6 @@ INSERT INTO bnlsData(
         )
     `
 } 
-export  {sqlInsert, sqlDelete}
+export  {sqlInsert, sqlDelete, sqlCount}
 
 
