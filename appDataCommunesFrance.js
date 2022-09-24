@@ -26,7 +26,7 @@ async function getDataCommunes(){
     let nombreChapms = header.length
     // console.log(header.length)
     // console.log(nombreTotalLignes);
-    const writeStream = fs.createWriteStream("out.csv");
+    const writeStream = fs.createWriteStream("data/out.csv");
     text.split('\n').forEach(async elm =>{
         let res = writeStream.write(elm+'1\n')})
     writeStream.end()
