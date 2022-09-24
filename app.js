@@ -10,7 +10,9 @@ var pool = await sql.connect(dbConfig)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('./FrontEnd/'));
- 
+getParkingListData()
+.finally(process.exit(1))
+
 async function getParkingListData(){
     console.log('');
     console.log('______________Début intégration____________________\n');
@@ -31,10 +33,7 @@ async function getParkingListData(){
                         cleanLineData.push(enleveAppost(elm))  
                     }
                 }) 
-                // DataQueryToDB(sqlInsert(cleanLineData)) 
-                if(i == 42){
-                    console.log( sqlInsert(cleanLineData))
-                }
+                DataQueryToDB(sqlInsert(cleanLineData)) 
             count++
         }
         })
@@ -42,11 +41,13 @@ async function getParkingListData(){
         console.log('nombre de lignes initiales : ', count);
         console.log('');
         console.log('________________Fin intégration____________________\n');
+        return 1
     }else{
         console.log('No data found in open data');
         console.log('');
         console.log('________________Fin intégration____________________\n');
         }
+    return 1
 }
 
 async function DataQueryToDB(T_sql){
@@ -58,7 +59,6 @@ async function DataQueryToDB(T_sql){
 }
 
 function enleveAppost(mot){
-    // console.log(mot.length)
     let res = false
     let nouveauMot = ''
     for (let i = 0; i < mot.length; i++) {
@@ -71,9 +71,5 @@ function enleveAppost(mot){
     }
     return nouveauMot
 }
-
-let m = 'amine'
-console.log(m.replace('a','K'));
-getParkingListData()
 
 export default app
